@@ -1,0 +1,4 @@
+//
+The first project is guess The blueNumber of bicolorSphere .
+statistics recently 10 years' data , Every year has 154 items.
+
