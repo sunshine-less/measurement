@@ -1,12 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ca</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.2/js/bootstrap.bundle.min.js"></script>
+    <style>
+        html,
+        body {
+            background-color: black;
+            color: white;
+        }
+    </style>
+    <script>
+        function guess(params) {
+            console.log('yellow chrysanthemum');
+            test1110()
+        }
+        var index_a = 0
+        function test1110(params) {
+            var array = new Array();
+
+            //$.getJSON,ajax完整版怎么设置同步，
+            $.ajaxSettings.async = false
+            for (let j = 1; j <= 20; j++) {
+                let url = './data/bicolor/s'
+                let append = '.json'
+                url = url + j + append
+                $.getJSON(url,
+                    function (data, textStatus, jqXHR) {
+                        // console.log(data);
+                        let start = index_a
+                        for (let i = 0; i < data.result.length; i++) {
+                            // console.log(data.result[i]);
+                            array[index_a] = new Array()
+                            array[index_a][0] = data.result[i].code
+                            array[index_a][1] = data.result[i].blue
+                            index_a++
+                        }
+                        //倒序
+                        let end = index_a
+                        // console.log(start+','+end);
+                        let middle = end - start
+
+                        if (middle < 80) {
+                            // 舍弃最后一位，也就是倒序后的第一位
+                            //从队头和队尾双向调换
+
+                            let left = start - 1
+                            let right = end - 1
+                            let temp;
+                            while (left < right) {
+                                temp = array[left]
+                                array[left] = array[right]
+                                array[right] = temp
+                                left++
+                                right--
+                            }
+                            index_a--
+
+                        } else {
+                            //直接倒序
+                            let left = start
+                            let right = end - 1
+                            let temp;
+                            // console.log(left+',,'+right);
+                            while (left < right) {
+                                temp = array[left]
+                                array[left] = array[right]
+                                array[right] = temp
+                                left++
+                                right--
+                            }
+                        }
+
+                    }
+                );
+                // console.log(array.length);
+            }
+            console.log(array);
+            //去重
+            /*
+            for(let a = 0;a<array.length;a++){
+                console.log((a+1)+','+array[a][0]+','+array[1]);
+            }
+            */
+
+            /*
+           for(let i=0;i<array.length;i++){
+            document.write(array[i][1]+'&nbsp')
+            if((i+1)%5 == 0){
+                document.write('<br>')
+            }
+           }
+           */
+            //最近出现频度，也就是这一次出现距离上一次出现宽度
+            //16 1
+            //    我们产生一个矩阵，第一行表示数字1出现位置
+            var arrayL = new Array()
+            for(let j=0;j<16;j++){
+                arrayL[j] = new Array()
+            }
+            for(let i=154;i<array.length;i++){
+                let cu = parseInt(array[i][1])
+                arrayL[cu-1][arrayL[cu-1].length] = i+1
+                if(array[i][0].indexOf('2015')!=-1){
+                    break;
+                }
+            }
+            for(let i = 0 ;i<arrayL.length;i++){
+                document.write('number '+(i+1)+':&nbsp;')
+                for(let j=0;j<arrayL[i].length;j++){
+                    document.write(arrayL[i][j]+'&nbsp;')
+                }
+                document.write('<br>')
+            }
+
+            document.write('<hr>')
+            //间隔幅度
+            var arrayK = new Array()
+            for(let i=0;i<16;i++){
+                arrayK[i] = new Array()
+            }
+            for(let i=0;i<arrayL.length;i++){
+                for(let j=0;j<arrayL[i].length;j++){
+                    let before = 0;
+                    if(j>0){
+                        before = arrayL[i][j-1]
+                    }
+                    arrayK[i][j] = arrayL[i][j] - before
+                }
+            }
+
+            for(let i = 0;i<arrayK.length;i++){
+                document.write('num '+(i+1)+':&nbsp;')
+                for(let j=0;j<arrayK[i].length;j++){
+                    document.write(arrayK[i][j]+'&nbsp;')
+                }
+                document.write('<br>')
+            }
+        }
+    </script>
 </head>
-<body>
-    
+
+<body onload="guess()">
+    lottery
 </body>
+
 </html>
